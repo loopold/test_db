@@ -5,6 +5,7 @@ This repository was migrated from [Launchpad](https://launchpad.net/test-db).
 
 See usage in the [MySQL docs](https://dev.mysql.com/doc/employee/en/index.html)
 
+Forked and changed table names for my project with PostgreSQL.
 
 ## Where it comes from
 
