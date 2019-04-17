@@ -21,7 +21,7 @@ begin
         from
             dept_emp
         where
-            emp_no = employee_id
+            employee_id = employee_id
     );
     set @max_date=max_date;
     return (
@@ -30,7 +30,7 @@ begin
         from
             dept_emp
         where
-            emp_no = employee_id
+            employee_id = employee_id
             and
             from_date = max_date
             limit 1
@@ -68,7 +68,7 @@ begin
         from
             employees
         where
-            emp_no = employee_id
+            employee_id = employee_id
     );
 end//
 
@@ -93,7 +93,7 @@ begin
     set @max_date=max_date;
     return (
         select
-            emp_name(emp_no)
+            emp_name(employee_id)
         from
             dept_manager
         where
@@ -114,11 +114,11 @@ delimiter ;
 CREATE OR REPLACE VIEW  v_full_employees
 AS
 SELECT
-    emp_no,
+    employee_id,
     first_name , last_name ,
     birth_date , gender,
     hire_date,
-    emp_dept_name(emp_no) as department
+    emp_dept_name(employee_id) as department
 from
     employees;
 
@@ -146,34 +146,34 @@ begin
     DROP TABLE IF EXISTS department_people;
     CREATE TEMPORARY TABLE department_max_date
     (
-        emp_no int not null primary key,
+        employee_id int not null primary key,
         dept_from_date date not null,
         dept_to_date  date not null, # bug#320513
         KEY (dept_from_date, dept_to_date)
     );
     INSERT INTO department_max_date
     SELECT
-        emp_no, max(from_date), max(to_date)
+        employee_id, max(from_date), max(to_date)
     FROM
         dept_emp
     GROUP BY
-        emp_no;
+        employee_id;
 
     CREATE TEMPORARY TABLE department_people
     (
-        emp_no int not null,
+        employee_id int not null,
         dept_no char(4) not null,
-        primary key (emp_no, dept_no)
+        primary key (employee_id, dept_no)
     );
 
     insert into department_people
-    select dmd.emp_no, dept_no
+    select dmd.employee_id, dept_no
     from
         department_max_date dmd
         inner join dept_emp de
             on dmd.dept_from_date=de.from_date
             and dmd.dept_to_date=de.to_date
-            and dmd.emp_no=de.emp_no;
+            and dmd.employee_id=de.employee_id;
     SELECT
         dept_no,dept_name,manager, count(*)
         from v_full_departments

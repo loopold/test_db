@@ -61,8 +61,8 @@ SET @crc= '';
 
 INSERT INTO tchecksum 
     SELECT @crc := MD5(CONCAT_WS('#',@crc,
-                emp_no,birth_date,first_name,last_name,gender,hire_date)) 
-    FROM employees ORDER BY emp_no;
+                employee_id,birth_date,first_name,last_name,gender,hire_date)) 
+    FROM employees ORDER BY employee_id;
 INSERT INTO found_values VALUES ('employees', (SELECT COUNT(*) FROM employees), @crc,@crc);
 
 SET @crc = '';
@@ -73,26 +73,26 @@ INSERT INTO found_values values ('departments', (SELECT COUNT(*) FROM department
 
 SET @crc = '';
 INSERT INTO tchecksum 
-    SELECT @crc := MD5(CONCAT_WS('#',@crc, dept_no,emp_no, from_date,to_date)) 
-    FROM dept_manager ORDER BY dept_no,emp_no;
+    SELECT @crc := MD5(CONCAT_WS('#',@crc, dept_no,employee_id, from_date,to_date)) 
+    FROM dept_manager ORDER BY dept_no,employee_id;
 INSERT INTO found_values values ('dept_manager', (SELECT COUNT(*) FROM dept_manager), @crc,@crc);
 
 SET @crc = '';
 INSERT INTO tchecksum 
-    SELECT @crc := MD5(CONCAT_WS('#',@crc, dept_no,emp_no, from_date,to_date)) 
-    FROM dept_emp ORDER BY dept_no,emp_no;
+    SELECT @crc := MD5(CONCAT_WS('#',@crc, dept_no,employee_id, from_date,to_date)) 
+    FROM dept_emp ORDER BY dept_no,employee_id;
 INSERT INTO found_values values ('dept_emp', (SELECT COUNT(*) FROM dept_emp), @crc,@crc);
 
 SET @crc = '';
 INSERT INTO tchecksum 
-    SELECT @crc := MD5(CONCAT_WS('#',@crc, emp_no, title, from_date,to_date)) 
-    FROM titles order by emp_no,title,from_date;
+    SELECT @crc := MD5(CONCAT_WS('#',@crc, employee_id, title, from_date,to_date)) 
+    FROM titles order by employee_id,title,from_date;
 INSERT INTO found_values values ('titles', (SELECT COUNT(*) FROM titles), @crc,@crc);
 
 SET @crc = '';
 INSERT INTO tchecksum 
-    SELECT @crc := MD5(CONCAT_WS('#',@crc, emp_no, salary, from_date,to_date)) 
-    FROM salaries order by emp_no,from_date,to_date;
+    SELECT @crc := MD5(CONCAT_WS('#',@crc, employee_id, salary, from_date,to_date)) 
+    FROM salaries order by employee_id,from_date,to_date;
 INSERT INTO found_values values ('salaries', (SELECT COUNT(*) FROM salaries), @crc,@crc);
 
 DROP TABLE tchecksum;

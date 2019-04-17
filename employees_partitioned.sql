@@ -39,13 +39,13 @@ DROP TABLE IF EXISTS dept_emp,
 /*!50503 select CONCAT('storage engine: ', @@default_storage_engine) as INFO */;
 
 CREATE TABLE employees (
-    emp_no      INT             NOT NULL,
+    employee_id      INT             NOT NULL,
     birth_date  DATE            NOT NULL,
     first_name  VARCHAR(14)     NOT NULL,
     last_name   VARCHAR(16)     NOT NULL,
     gender      ENUM ('M','F')  NOT NULL,    
     hire_date   DATE            NOT NULL,
-    PRIMARY KEY (emp_no)
+    PRIMARY KEY (employee_id)
 );
 
 CREATE TABLE departments (
@@ -56,32 +56,32 @@ CREATE TABLE departments (
 );
 
 CREATE TABLE dept_manager (
-   emp_no       INT             NOT NULL,
+   employee_id       INT             NOT NULL,
    dept_no      CHAR(4)         NOT NULL,
    from_date    DATE            NOT NULL,
    to_date      DATE            NOT NULL,
-   FOREIGN KEY (emp_no)  REFERENCES employees (emp_no)    ON DELETE CASCADE,
+   FOREIGN KEY (employee_id)  REFERENCES employees (employee_id)    ON DELETE CASCADE,
    FOREIGN KEY (dept_no) REFERENCES departments (dept_no) ON DELETE CASCADE,
-   PRIMARY KEY (emp_no,dept_no)
+   PRIMARY KEY (employee_id,dept_no)
 ); 
 
 CREATE TABLE dept_emp (
-    emp_no      INT             NOT NULL,
+    employee_id      INT             NOT NULL,
     dept_no     CHAR(4)         NOT NULL,
     from_date   DATE            NOT NULL,
     to_date     DATE            NOT NULL,
-    FOREIGN KEY (emp_no)  REFERENCES employees   (emp_no)  ON DELETE CASCADE,
+    FOREIGN KEY (employee_id)  REFERENCES employees   (employee_id)  ON DELETE CASCADE,
     FOREIGN KEY (dept_no) REFERENCES departments (dept_no) ON DELETE CASCADE,
-    PRIMARY KEY (emp_no,dept_no)
+    PRIMARY KEY (employee_id,dept_no)
 );
 
 CREATE TABLE titles (
-    emp_no      INT             NOT NULL,
+    employee_id      INT             NOT NULL,
     title       VARCHAR(50)     NOT NULL,
     from_date   DATE            NOT NULL,
     to_date     DATE,
-    # FOREIGN KEY (emp_no) REFERENCES employees (emp_no) ON DELETE CASCADE,
-    PRIMARY KEY (emp_no,title, from_date)
+    # FOREIGN KEY (employee_id) REFERENCES employees (employee_id) ON DELETE CASCADE,
+    PRIMARY KEY (employee_id,title, from_date)
 ); 
 
 /*!50510
@@ -111,12 +111,12 @@ partition by range COLUMNS (from_date)
 */;
 
 CREATE TABLE salaries (
-    emp_no      INT             NOT NULL,
+    employee_id      INT             NOT NULL,
     salary      INT             NOT NULL,
     from_date   DATE            NOT NULL,
     to_date     DATE            NOT NULL,
-    # FOREIGN KEY (emp_no) REFERENCES employees (emp_no) ON DELETE CASCADE,
-    PRIMARY KEY (emp_no, from_date)
+    # FOREIGN KEY (employee_id) REFERENCES employees (employee_id) ON DELETE CASCADE,
+    PRIMARY KEY (employee_id, from_date)
 ); 
 
 /*!50510
@@ -146,16 +146,16 @@ partition by range COLUMNS (from_date)
 */;
 
 CREATE OR REPLACE VIEW dept_emp_latest_date AS
-    SELECT emp_no, MAX(from_date) AS from_date, MAX(to_date) AS to_date
+    SELECT employee_id, MAX(from_date) AS from_date, MAX(to_date) AS to_date
     FROM dept_emp
-    GROUP BY emp_no;
+    GROUP BY employee_id;
 
 # shows only the current department for each employee
 CREATE OR REPLACE VIEW current_dept_emp AS
-    SELECT l.emp_no, dept_no, l.from_date, l.to_date
+    SELECT l.employee_id, dept_no, l.from_date, l.to_date
     FROM dept_emp d
         INNER JOIN dept_emp_latest_date l
-        ON d.emp_no=l.emp_no AND d.from_date=l.from_date AND l.to_date = d.to_date;
+        ON d.employee_id=l.employee_id AND d.from_date=l.from_date AND l.to_date = d.to_date;
 
 flush /*!50503 binary */ logs;
 
