@@ -26,7 +26,7 @@ begin
     set @max_date=max_date;
     return (
         select
-            dept_no
+            department_id
         from
             dept_emp
         where
@@ -51,7 +51,7 @@ begin
         from
             departments
         where
-            dept_no = emp_dept_id(employee_id)
+            department_id = emp_dept_id(employee_id)
     );
 end//
 
@@ -88,7 +88,7 @@ begin
         from
             department_managers
         where
-            dept_no = dept_id
+            department_id = dept_id
     );
     set @max_date=max_date;
     return (
@@ -97,7 +97,7 @@ begin
         from
             department_managers
         where
-            dept_no = dept_id
+            department_id = dept_id
             and
             from_date = max_date
             limit 1
@@ -129,7 +129,7 @@ from
 CREATE OR REPLACE VIEW v_full_departments
 AS
 SELECT
-    dept_no, dept_name, current_manager(dept_no) as manager
+    department_id, dept_name, current_manager(department_id) as manager
 FROM
     departments;
 
@@ -162,12 +162,12 @@ begin
     CREATE TEMPORARY TABLE department_people
     (
         employee_id int not null,
-        dept_no char(4) not null,
-        primary key (employee_id, dept_no)
+        department_id char(4) not null,
+        primary key (employee_id, department_id)
     );
 
     insert into department_people
-    select dmd.employee_id, dept_no
+    select dmd.employee_id, department_id
     from
         department_max_date dmd
         inner join dept_emp de
@@ -175,10 +175,10 @@ begin
             and dmd.dept_to_date=de.to_date
             and dmd.employee_id=de.employee_id;
     SELECT
-        dept_no,dept_name,manager, count(*)
+        department_id,dept_name,manager, count(*)
         from v_full_departments
-            inner join department_people using (dept_no)
-        group by dept_no;
+            inner join department_people using (department_id)
+        group by department_id;
         # with rollup;
     DROP TABLE department_max_date;
     DROP TABLE department_people;

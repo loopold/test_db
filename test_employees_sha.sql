@@ -67,20 +67,20 @@ INSERT INTO found_values VALUES ('employees', (SELECT COUNT(*) FROM employees), 
 
 SET @crc = '';
 INSERT INTO tchecksum 
-    SELECT @crc := sha(CONCAT_WS('#',@crc, dept_no,dept_name)) 
-    FROM departments ORDER BY dept_no;
+    SELECT @crc := sha(CONCAT_WS('#',@crc, department_id,dept_name)) 
+    FROM departments ORDER BY department_id;
 INSERT INTO found_values values ('departments', (SELECT COUNT(*) FROM departments), @crc,@crc);
 
 SET @crc = '';
 INSERT INTO tchecksum 
-    SELECT @crc := sha(CONCAT_WS('#',@crc, dept_no,employee_id, from_date,to_date)) 
-    FROM department_managers ORDER BY dept_no,employee_id;
+    SELECT @crc := sha(CONCAT_WS('#',@crc, department_id,employee_id, from_date,to_date)) 
+    FROM department_managers ORDER BY department_id,employee_id;
 INSERT INTO found_values values ('department_managers', (SELECT COUNT(*) FROM department_managers), @crc,@crc);
 
 SET @crc = '';
 INSERT INTO tchecksum 
-    SELECT @crc := sha(CONCAT_WS('#',@crc, dept_no,employee_id, from_date,to_date)) 
-    FROM dept_emp ORDER BY dept_no,employee_id;
+    SELECT @crc := sha(CONCAT_WS('#',@crc, department_id,employee_id, from_date,to_date)) 
+    FROM dept_emp ORDER BY department_id,employee_id;
 INSERT INTO found_values values ('dept_emp', (SELECT COUNT(*) FROM dept_emp), @crc,@crc);
 
 SET @crc = '';

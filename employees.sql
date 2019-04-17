@@ -49,30 +49,30 @@ CREATE TABLE employees (
 );
 
 CREATE TABLE departments (
-    dept_no     CHAR(4)         NOT NULL,
+    department_id     CHAR(4)         NOT NULL,
     dept_name   VARCHAR(40)     NOT NULL,
-    PRIMARY KEY (dept_no),
+    PRIMARY KEY (department_id),
     UNIQUE  KEY (dept_name)
 );
 
 CREATE TABLE department_managers (
    employee_id       INT             NOT NULL,
-   dept_no      CHAR(4)         NOT NULL,
+   department_id      CHAR(4)         NOT NULL,
    from_date    DATE            NOT NULL,
    to_date      DATE            NOT NULL,
    FOREIGN KEY (employee_id)  REFERENCES employees (employee_id)    ON DELETE CASCADE,
-   FOREIGN KEY (dept_no) REFERENCES departments (dept_no) ON DELETE CASCADE,
-   PRIMARY KEY (employee_id,dept_no)
+   FOREIGN KEY (department_id) REFERENCES departments (department_id) ON DELETE CASCADE,
+   PRIMARY KEY (employee_id,department_id)
 ); 
 
 CREATE TABLE dept_emp (
     employee_id      INT             NOT NULL,
-    dept_no     CHAR(4)         NOT NULL,
+    department_id     CHAR(4)         NOT NULL,
     from_date   DATE            NOT NULL,
     to_date     DATE            NOT NULL,
     FOREIGN KEY (employee_id)  REFERENCES employees   (employee_id)  ON DELETE CASCADE,
-    FOREIGN KEY (dept_no) REFERENCES departments (dept_no) ON DELETE CASCADE,
-    PRIMARY KEY (employee_id,dept_no)
+    FOREIGN KEY (department_id) REFERENCES departments (department_id) ON DELETE CASCADE,
+    PRIMARY KEY (employee_id,department_id)
 );
 
 CREATE TABLE titles (
@@ -102,7 +102,7 @@ CREATE OR REPLACE VIEW dept_emp_latest_date AS
 
 # shows only the current department for each employee
 CREATE OR REPLACE VIEW current_dept_emp AS
-    SELECT l.employee_id, dept_no, l.from_date, l.to_date
+    SELECT l.employee_id, department_id, l.from_date, l.to_date
     FROM dept_emp d
         INNER JOIN dept_emp_latest_date l
         ON d.employee_id=l.employee_id AND d.from_date=l.from_date AND l.to_date = d.to_date;
