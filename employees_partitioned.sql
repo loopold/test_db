@@ -112,7 +112,7 @@ partition by range COLUMNS (from_date)
 
 CREATE TABLE salaries (
     employee_id      INT             NOT NULL,
-    salary      INT             NOT NULL,
+    amount      INT             NOT NULL,
     from_date   DATE            NOT NULL,
     to_date     DATE            NOT NULL,
     # FOREIGN KEY (employee_id) REFERENCES employees (employee_id) ON DELETE CASCADE,

@@ -91,7 +91,7 @@ INSERT INTO found_values values ('titles', (SELECT COUNT(*) FROM titles), @crc,@
 
 SET @crc = '';
 INSERT INTO tchecksum 
-    SELECT @crc := MD5(CONCAT_WS('#',@crc, employee_id, salary, from_date,to_date)) 
+    SELECT @crc := MD5(CONCAT_WS('#',@crc, employee_id, amount, from_date,to_date)) 
     FROM salaries order by employee_id,from_date,to_date;
 INSERT INTO found_values values ('salaries', (SELECT COUNT(*) FROM salaries), @crc,@crc);
 
