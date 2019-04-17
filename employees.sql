@@ -29,7 +29,7 @@ USE employees_development;
 SELECT 'CREATING DATABASE STRUCTURE' as 'INFO';
 
 DROP TABLE IF EXISTS dept_emp,
-                     dept_manager,
+                     department_managers,
                      titles,
                      salaries, 
                      employees, 
@@ -55,7 +55,7 @@ CREATE TABLE departments (
     UNIQUE  KEY (dept_name)
 );
 
-CREATE TABLE dept_manager (
+CREATE TABLE department_managers (
    employee_id       INT             NOT NULL,
    dept_no      CHAR(4)         NOT NULL,
    from_date    DATE            NOT NULL,
@@ -115,8 +115,8 @@ SELECT 'LOADING employees' as 'INFO';
 source load_employees.dump ;
 SELECT 'LOADING dept_emp' as 'INFO';
 source load_dept_emp.dump ;
-SELECT 'LOADING dept_manager' as 'INFO';
-source load_dept_manager.dump ;
+SELECT 'LOADING department_managers' as 'INFO';
+source load_department_managers.dump ;
 SELECT 'LOADING titles' as 'INFO';
 source load_titles.dump ;
 SELECT 'LOADING salaries' as 'INFO';

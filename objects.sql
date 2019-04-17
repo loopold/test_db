@@ -86,7 +86,7 @@ begin
         select
             max(from_date)
         from
-            dept_manager
+            department_managers
         where
             dept_no = dept_id
     );
@@ -95,7 +95,7 @@ begin
         select
             emp_name(employee_id)
         from
-            dept_manager
+            department_managers
         where
             dept_no = dept_id
             and

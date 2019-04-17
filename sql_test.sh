@@ -18,7 +18,7 @@ fi
 EXPECTED=(
 departments:9:3737256214
 dept_emp:331603:1015881734
-dept_manager:24:2275236704
+department_managers:24:2275236704
 employees:300024:610052939
 salaries:2844047:4273816835
 titles:443308:1842528371

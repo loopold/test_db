@@ -44,7 +44,7 @@ INSERT INTO `expected_values` VALUES
                         '4ec56ab5ba37218d187cf6ab09ce1aa1'),
 ('departments',      9,'4b315afa0e35ca6649df897b958345bcb3d2b764',
                        'd1af5e170d2d1591d776d5638d71fc5f'),
-('dept_manager',    24,'9687a7d6f93ca8847388a42a6d8d93982a841c6c',
+('department_managers',    24,'9687a7d6f93ca8847388a42a6d8d93982a841c6c',
                        '8720e2f0853ac9096b689c14664f847e'),
 ('dept_emp',    331603, 'd95ab9fe07df0865f592574b3b33b9c741d9fd1b',
                        'ccf6fe516f990bdaa49713fc478701b7'),
@@ -74,8 +74,8 @@ INSERT INTO found_values values ('departments', (SELECT COUNT(*) FROM department
 SET @crc = '';
 INSERT INTO tchecksum 
     SELECT @crc := MD5(CONCAT_WS('#',@crc, dept_no,employee_id, from_date,to_date)) 
-    FROM dept_manager ORDER BY dept_no,employee_id;
-INSERT INTO found_values values ('dept_manager', (SELECT COUNT(*) FROM dept_manager), @crc,@crc);
+    FROM department_managers ORDER BY dept_no,employee_id;
+INSERT INTO found_values values ('department_managers', (SELECT COUNT(*) FROM department_managers), @crc,@crc);
 
 SET @crc = '';
 INSERT INTO tchecksum 
