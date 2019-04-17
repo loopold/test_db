@@ -46,7 +46,7 @@ INSERT INTO `expected_values` VALUES
                        'd1af5e170d2d1591d776d5638d71fc5f'),
 ('department_managers',    24,'9687a7d6f93ca8847388a42a6d8d93982a841c6c',
                        '8720e2f0853ac9096b689c14664f847e'),
-('dept_emp',    331603, 'd95ab9fe07df0865f592574b3b33b9c741d9fd1b',
+('department_employees',    331603, 'd95ab9fe07df0865f592574b3b33b9c741d9fd1b',
                        'ccf6fe516f990bdaa49713fc478701b7'),
 ('titles',      443308,'d12d5f746b88f07e69b9e36675b6067abb01b60e',
                        'bfa016c472df68e70a03facafa1bc0a8'),
@@ -80,8 +80,8 @@ INSERT INTO found_values values ('department_managers', (SELECT COUNT(*) FROM de
 SET @crc = '';
 INSERT INTO tchecksum 
     SELECT @crc := sha(CONCAT_WS('#',@crc, department_id,employee_id, from_date,to_date)) 
-    FROM dept_emp ORDER BY department_id,employee_id;
-INSERT INTO found_values values ('dept_emp', (SELECT COUNT(*) FROM dept_emp), @crc,@crc);
+    FROM department_employees ORDER BY department_id,employee_id;
+INSERT INTO found_values values ('department_employees', (SELECT COUNT(*) FROM department_employees), @crc,@crc);
 
 SET @crc = '';
 INSERT INTO tchecksum 

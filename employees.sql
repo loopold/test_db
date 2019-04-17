@@ -28,7 +28,7 @@ USE employees_development;
 
 SELECT 'CREATING DATABASE STRUCTURE' as 'INFO';
 
-DROP TABLE IF EXISTS dept_emp,
+DROP TABLE IF EXISTS department_employees,
                      department_managers,
                      titles,
                      salaries, 
@@ -65,7 +65,7 @@ CREATE TABLE department_managers (
    PRIMARY KEY (employee_id,department_id)
 ); 
 
-CREATE TABLE dept_emp (
+CREATE TABLE department_employees (
     employee_id      INT             NOT NULL,
     department_id     CHAR(4)         NOT NULL,
     from_date   DATE            NOT NULL,
@@ -95,16 +95,16 @@ CREATE TABLE salaries (
 ) 
 ; 
 
-CREATE OR REPLACE VIEW dept_emp_latest_date AS
+CREATE OR REPLACE VIEW department_employees_latest_date AS
     SELECT employee_id, MAX(from_date) AS from_date, MAX(to_date) AS to_date
-    FROM dept_emp
+    FROM department_employees
     GROUP BY employee_id;
 
 # shows only the current department for each employee
-CREATE OR REPLACE VIEW current_dept_emp AS
+CREATE OR REPLACE VIEW current_department_employees AS
     SELECT l.employee_id, department_id, l.from_date, l.to_date
-    FROM dept_emp d
-        INNER JOIN dept_emp_latest_date l
+    FROM department_employees d
+        INNER JOIN department_employees_latest_date l
         ON d.employee_id=l.employee_id AND d.from_date=l.from_date AND l.to_date = d.to_date;
 
 flush /*!50503 binary */ logs;
@@ -113,8 +113,8 @@ SELECT 'LOADING departments' as 'INFO';
 source load_departments.dump ;
 SELECT 'LOADING employees' as 'INFO';
 source load_employees.dump ;
-SELECT 'LOADING dept_emp' as 'INFO';
-source load_dept_emp.dump ;
+SELECT 'LOADING department_employees' as 'INFO';
+source load_department_employees.dump ;
 SELECT 'LOADING department_managers' as 'INFO';
 source load_department_managers.dump ;
 SELECT 'LOADING titles' as 'INFO';

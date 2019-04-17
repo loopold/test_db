@@ -19,7 +19,7 @@ begin
         select
             max(from_date)
         from
-            dept_emp
+            department_employees
         where
             employee_id = employee_id
     );
@@ -28,7 +28,7 @@ begin
         select
             department_id
         from
-            dept_emp
+            department_employees
         where
             employee_id = employee_id
             and
@@ -155,7 +155,7 @@ begin
     SELECT
         employee_id, max(from_date), max(to_date)
     FROM
-        dept_emp
+        department_employees
     GROUP BY
         employee_id;
 
@@ -170,7 +170,7 @@ begin
     select dmd.employee_id, department_id
     from
         department_max_date dmd
-        inner join dept_emp de
+        inner join department_employees de
             on dmd.dept_from_date=de.from_date
             and dmd.dept_to_date=de.to_date
             and dmd.employee_id=de.employee_id;
